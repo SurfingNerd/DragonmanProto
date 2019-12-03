@@ -36,6 +36,50 @@ public class FlightControl1 : MonoBehaviour
     //***************************************************************************
 
 
+    public float wingSpan = 13.56f;
+    public float wingArea = 78.04f;
+
+    private float aspectRatio;
+
+    private void Awake()
+    {
+        theBird.drag = Mathf.Epsilon;
+        aspectRatio = (wingSpan * wingSpan) / wingArea;
+    }
+
+    private void calculateForces()
+    {
+        // *flip sign(s) if necessary*
+        var localVelocity = transform.InverseTransformDirection(theBird.velocity);
+        var angleOfAttack = Mathf.Atan2(-localVelocity.y, localVelocity.z);
+
+        // α * 2 * PI * (AR / AR + 2)
+        var inducedLift = angleOfAttack * (aspectRatio / (aspectRatio + 2f)) * 2f * Mathf.PI;
+
+        // CL ^ 2 / (AR * PI)
+        var inducedDrag = (inducedLift * inducedLift) / (aspectRatio * Mathf.PI);
+
+        // V ^ 2 * R * 0.5 * A
+        var pressure = theBird.velocity.sqrMagnitude * 1.2754f * 0.5f * wingArea;
+
+        var lift = inducedLift * pressure;
+        var drag = (0.021f + inducedDrag) * pressure;
+
+        // *flip sign(s) if necessary*
+        var dragDirection = theBird.velocity.normalized;
+        var liftDirection = Vector3.Cross(dragDirection, transform.right);
+
+        var vLift  =  liftDirection * lift;
+        var vDrag = dragDirection * drag;
+        var vTotalForce = vLift - vDrag;
+
+        // Lift + Drag = Total Force
+        Debug.Log(vLift + " + " +  vDrag + " = " + vTotalForce);
+        theBird.AddForce(vTotalForce);
+
+        //theBird.AddForce(transform.forward * EnginePower);
+    }
+
     void Start()
     {
         SetInitialReferences();
@@ -58,6 +102,7 @@ public class FlightControl1 : MonoBehaviour
     void LateUpdate()
     {
         ApplyForce();
+        calculateForces();
     }
 
     void SetInitialReferences()

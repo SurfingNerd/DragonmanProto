@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FlightControl1 : MonoBehaviour
 {
@@ -47,6 +48,11 @@ public class FlightControl1 : MonoBehaviour
         LiftOff();
         DirectionalControl();
 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Scene scene = SceneManager.GetActiveScene(); 
+            SceneManager.LoadScene(scene.name);
+        }
     }
 
     void LateUpdate()

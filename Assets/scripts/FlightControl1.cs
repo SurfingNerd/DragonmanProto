@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class FlightControl1 : MonoBehaviour
 {
-
-
     //USER CONTROLS***************************
     public float rollSpeed;
     public float pitchSpeed;
@@ -20,8 +18,6 @@ public class FlightControl1 : MonoBehaviour
     public float thrustPower;
     public float upThrust;
     public float forwardThrust;
-
-
 
     //Air physics - Drag Resistance Applied Inverse to Velocity
     public float radius; //Radius of the flight object -- Higher equals more drag
@@ -39,14 +35,11 @@ public class FlightControl1 : MonoBehaviour
     //***************************************************************************
 
 
-
-
-
-
-
     void Start()
     {
         SetInitialReferences();
+        Debug.Log("FlightControl1 Started");
+
     }
 
     void FixedUpdate()
@@ -71,6 +64,8 @@ public class FlightControl1 : MonoBehaviour
         float h = Input.GetAxis("Horizontal") * rollSpeed * Time.deltaTime;
         float v = Input.GetAxis("Vertical") * pitchSpeed * Time.deltaTime;
         float y = Input.GetAxis("Yaw") * yawSpeed * Time.deltaTime;
+
+        Debug.Log("Applying Torque " + h + " " + v + " " + y);
 
         theBird.AddTorque(transform.forward * -h);
         theBird.AddTorque(transform.right * v);

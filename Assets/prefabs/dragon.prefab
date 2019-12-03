@@ -102,9 +102,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7273aa5a23d647a56a53e63b573a64cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rollSpeed: 1
-  pitchSpeed: 1
-  yawSpeed: 1
+  rollSpeed: 1000
+  pitchSpeed: 1000
+  yawSpeed: 1000
   theBird: {fileID: 4974234103252333010}
   thrustPower: 1
   upThrust: 1

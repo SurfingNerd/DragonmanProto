@@ -17690,6 +17690,31 @@ PrefabInstance:
       propertyPath: upThrust
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 779040867184227976, guid: c3df00ed5894c0f0f9e7649ba4429aa3,
+        type: 3}
+      propertyPath: rollSpeed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 779040867184227976, guid: c3df00ed5894c0f0f9e7649ba4429aa3,
+        type: 3}
+      propertyPath: pitchSpeed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 779040867184227976, guid: c3df00ed5894c0f0f9e7649ba4429aa3,
+        type: 3}
+      propertyPath: yawSpeed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 779040867184227976, guid: c3df00ed5894c0f0f9e7649ba4429aa3,
+        type: 3}
+      propertyPath: wingSpan
+      value: 1.356
+      objectReference: {fileID: 0}
+    - target: {fileID: 779040867184227976, guid: c3df00ed5894c0f0f9e7649ba4429aa3,
+        type: 3}
+      propertyPath: wingArea
+      value: 7.804
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3df00ed5894c0f0f9e7649ba4429aa3, type: 3}
 --- !u!1 &1926251475

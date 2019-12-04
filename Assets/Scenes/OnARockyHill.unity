@@ -17693,17 +17693,17 @@ PrefabInstance:
     - target: {fileID: 779040867184227976, guid: c3df00ed5894c0f0f9e7649ba4429aa3,
         type: 3}
       propertyPath: rollSpeed
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 779040867184227976, guid: c3df00ed5894c0f0f9e7649ba4429aa3,
         type: 3}
       propertyPath: pitchSpeed
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 779040867184227976, guid: c3df00ed5894c0f0f9e7649ba4429aa3,
         type: 3}
       propertyPath: yawSpeed
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 779040867184227976, guid: c3df00ed5894c0f0f9e7649ba4429aa3,
         type: 3}

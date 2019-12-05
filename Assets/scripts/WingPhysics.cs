@@ -7,9 +7,12 @@ public class WingPhysics : MonoBehaviour
     public float wingSpan = 13.56f;
     public float wingArea = 78.04f;
 
-    public Material forceDebugMaterial;
+    //public Material forceDebugMaterial;
 
     public bool showForceDebug = true;
+
+    public GameObject debugCube;
+
 
 
 
@@ -17,6 +20,9 @@ public class WingPhysics : MonoBehaviour
     private Rigidbody rigidBody;
 
     private Vector3 lastWingForce;
+
+    private Vector3 debugCubeInitialPosition;
+    private Vector3 debugCubeInitialScale;
 
     //private GameObject forceDebugVisual;
 
@@ -58,18 +64,21 @@ public class WingPhysics : MonoBehaviour
 
         var vLift = liftDirection * lift;
         var vDrag = dragDirection * drag;
-        lastWingForce = vLift - vDrag;
+        lastWingForce = (vLift - vDrag) * Time.deltaTime * 10;
 
         // Lift + Drag = Total Force
         //Debug.Log(vLift + " + " + vDrag + " = " + vTotalForce);
+        Debug.Log("Last Force: " + lastWingForce.magnitude);
 
         //Debug.DrawLine(rigidBody.transform.position ,rigidBody.transform.position + lastWingForce * 100000000, Color.green, 1);
-        
+        if (debugCube != null) 
+        {
+            debugCube.transform.localPosition = debugCubeInitialPosition + (lastWingForce * 10);
+        }
         
         rigidBody.AddForce(lastWingForce);
 
         
-
 
         //theBird.AddForce(transform.forward * EnginePower);
     }
@@ -96,9 +105,9 @@ public class WingPhysics : MonoBehaviour
         // }
         
         
-        float xOffset = 10000000;
-        float yOffset = 10000000;
-        float zOffset = 10000000;
+        // float xOffset = 10000000;
+        // float yOffset = 10000000;
+        // float zOffset = 10000000;
 
         // Vector3[] vertices = {
         //     new Vector3(rigidBody.position.x, rigidBody.position.y, rigidBody.position.z),
@@ -111,25 +120,27 @@ public class WingPhysics : MonoBehaviour
         //     new Vector3 (rigidBody.position.x, rigidBody.position.y, rigidBody.position.z + zOffset)
         // };
 
-        Vector3[] vertices = {
-            new Vector3(rigidBody.position.x, rigidBody.position.y, rigidBody.position.z),
-            new Vector3(rigidBody.position.x + xOffset, rigidBody.position.y, rigidBody.position.z),
-            new Vector3(rigidBody.position.x + xOffset, rigidBody.position.y + yOffset, rigidBody.position.z),
-            new Vector3(rigidBody.position.x, rigidBody.position.y + yOffset, rigidBody.position.z),
-            new Vector3 (rigidBody.position.x, rigidBody.position.y + yOffset, rigidBody.position.z + zOffset),
-            new Vector3 (rigidBody.position.x + xOffset, rigidBody.position.y + yOffset, rigidBody.position.z + zOffset),
-            new Vector3 (rigidBody.position.x + xOffset, rigidBody.position.y, rigidBody.position.z + zOffset),
-            new Vector3 (rigidBody.position.x, rigidBody.position.y, rigidBody.position.z + zOffset)
-        };
 
+        // const float s = 10000;
 
-        //Mesh mesh = Mesh.
+        // Vector3[] vertices = {
+        //     new Vector3 (0, 0, 0),
+        //     new Vector3 (s, 0, 0),
+        //     new Vector3 (s, s, 0),
+        //     new Vector3 (0, s, 0),
+        //     new Vector3 (0, s, s),
+        //     new Vector3 (s, s, s),
+        //     new Vector3 (s, 0, s),
+        //     new Vector3 (0, 0, s),
+        // };
 
-        Mesh mesh = new Mesh();
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
+        // //Mesh mesh = Mesh.
 
-        Graphics.DrawMesh( mesh, new Vector3(), Quaternion.identity, forceDebugMaterial, 31, null, 0, null, false, false, false); 
+        // Mesh mesh = new Mesh();
+        // mesh.vertices = vertices;
+        // mesh.triangles = triangles;
+
+        // Graphics.DrawMesh( mesh, rigidBody.position, Quaternion.identity, forceDebugMaterial, 14, null, 0, null, false, false, false); 
 
     }
 
@@ -149,6 +160,12 @@ public class WingPhysics : MonoBehaviour
         aspectRatio = (wingSpan * wingSpan) / wingArea;
         rigidBody = this.GetComponent<Rigidbody>();
 
+        if (debugCube) 
+        {
+            debugCubeInitialPosition = debugCube.transform.position;
+            debugCubeInitialScale = debugCube.transform.localScale;
+        }
+
         // if (showForceDebug) {
         //     //forceDebugVisual = GameObject.CreatePrimitive(PrimitiveType.) CreatePrimitive(PrimitiveType.Capsule);
         //     GameObject go = new GameObject("WingForceDebug");
@@ -164,6 +181,6 @@ public class WingPhysics : MonoBehaviour
     void Update()
     {  
         calculateForces();
-        OnPostRender();
+        //OnPostRender();
     }
 }

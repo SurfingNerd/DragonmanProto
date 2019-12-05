@@ -78,6 +78,7 @@ public class FlightControl1 : MonoBehaviour
         theBird.AddForce(vTotalForce);
 
         //theBird.AddForce(transform.forward * EnginePower);
+        
     }
 
     void Start()

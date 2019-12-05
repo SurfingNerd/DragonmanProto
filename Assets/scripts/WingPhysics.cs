@@ -24,6 +24,8 @@ public class WingPhysics : MonoBehaviour
     private Vector3 debugCubeInitialPosition;
     private Vector3 debugCubeInitialScale;
 
+
+
     //private GameObject forceDebugVisual;
 
     private static readonly int[] triangles = {
@@ -71,10 +73,7 @@ public class WingPhysics : MonoBehaviour
         Debug.Log("Last Force: " + lastWingForce.magnitude);
 
         //Debug.DrawLine(rigidBody.transform.position ,rigidBody.transform.position + lastWingForce * 100000000, Color.green, 1);
-        if (debugCube != null) 
-        {
-            debugCube.transform.localPosition = debugCubeInitialPosition + (lastWingForce * 10);
-        }
+
         
         rigidBody.AddForce(lastWingForce);
 
@@ -82,6 +81,8 @@ public class WingPhysics : MonoBehaviour
 
         //theBird.AddForce(transform.forward * EnginePower);
     }
+
+    
 
     void OnPostRender()
     {
@@ -179,8 +180,15 @@ public class WingPhysics : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {  
-        calculateForces();
-        //OnPostRender();
+    {
+        if (debugCube != null) 
+        {
+            debugCube.transform.localPosition = debugCubeInitialPosition + (lastWingForce * 10);
+        }
+    }
+
+    void FixedUpdate()
+    {
+       calculateForces();
     }
 }

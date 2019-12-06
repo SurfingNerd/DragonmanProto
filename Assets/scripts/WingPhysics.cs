@@ -14,6 +14,9 @@ public class WingPhysics : MonoBehaviour
     public GameObject debugCube;
 
 
+    public GameObject[] forceDebugBaloons;
+    public float[] forceDebugBaloonsMultipliers = new float[] { 10, 5, 3, 1};
+
 
 
     private float aspectRatio;
@@ -23,6 +26,8 @@ public class WingPhysics : MonoBehaviour
 
     private Vector3 debugCubeInitialPosition;
     private Vector3 debugCubeInitialScale;
+
+    private Vector3[] debugBaloonInitialPosition;
 
 
 
@@ -163,15 +168,21 @@ public class WingPhysics : MonoBehaviour
 
         if (debugCube) 
         {
-            debugCubeInitialPosition = debugCube.transform.position;
+            debugCubeInitialPosition = debugCube.transform.localPosition;
             debugCubeInitialScale = debugCube.transform.localScale;
         }
 
-        // if (showForceDebug) {
-        //     //forceDebugVisual = GameObject.CreatePrimitive(PrimitiveType.) CreatePrimitive(PrimitiveType.Capsule);
-        //     GameObject go = new GameObject("WingForceDebug");
-            
+        if (forceDebugBaloons.Length > 0) {
+            debugBaloonInitialPosition = new Vector3[forceDebugBaloons.Length];
+            for (int i = 0; i < forceDebugBaloons.Length; i++)
+            {
+                
+                debugBaloonInitialPosition[i] =  forceDebugBaloons[i].transform.localPosition;
+            }
+        }
 
+        // if (showForceDebug) {
+        //     //forceDebugVism
         //     Destroy(forceDebugVisual.GetComponent<Collider>());
         //     forceDebugVisual.transform.parent = rigidBody.transform;
         //     //forceDebugVisual.transform.position = new Vector3(2, 1, 0);
@@ -184,6 +195,14 @@ public class WingPhysics : MonoBehaviour
         if (debugCube != null) 
         {
             debugCube.transform.localPosition = debugCubeInitialPosition + (lastWingForce * 10);
+        }
+
+        int counter = 0;
+        foreach (var debugBaloon in forceDebugBaloons)
+        {
+            Debug.Log(counter + " " + forceDebugBaloons[counter].transform.position);
+            debugBaloon.transform.localPosition = debugBaloonInitialPosition[counter] + (lastWingForce * forceDebugBaloonsMultipliers[counter]);
+            counter++;
         }
     }
 

@@ -731,6 +731,8 @@ MonoBehaviour:
   wingArea: 78.04
   showForceDebug: 1
   debugCube: {fileID: 0}
+  moveWingUpKey: 0
+  moveWingDownKey: 0
   forceDebugBaloons:
   - {fileID: 7415599626893157102}
   - {fileID: 2969480238539660232}
@@ -787,6 +789,8 @@ MonoBehaviour:
   wingArea: 78.04
   showForceDebug: 1
   debugCube: {fileID: 0}
+  moveWingUpKey: 0
+  moveWingDownKey: 0
   forceDebugBaloons:
   - {fileID: 6837862150814201384}
   - {fileID: 6301545709784921416}
@@ -1139,15 +1143,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c8dd1af3f97eb3f15b57f4fbdd438f66, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c8dd1af3f97eb3f15b57f4fbdd438f66, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c8dd1af3f97eb3f15b57f4fbdd438f66, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c8dd1af3f97eb3f15b57f4fbdd438f66, type: 3}
       propertyPath: m_LocalRotation.w

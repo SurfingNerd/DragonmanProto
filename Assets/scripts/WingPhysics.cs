@@ -13,6 +13,10 @@ public class WingPhysics : MonoBehaviour
 
     public GameObject debugCube;
 
+    public KeyCode moveWingUpKey = KeyCode.None;
+    public KeyCode moveWingDownKey = KeyCode.None;
+
+    //public float maxRotation = 0.3;
 
     public GameObject[] forceDebugBaloons;
     public float[] forceDebugBaloonsMultipliers = new float[] { 10, 5, 3, 1};
@@ -29,7 +33,7 @@ public class WingPhysics : MonoBehaviour
 
     private Vector3[] debugBaloonInitialPosition;
 
-
+    private AirplaneController airplaneController; 
 
     //private GameObject forceDebugVisual;
 
@@ -78,87 +82,15 @@ public class WingPhysics : MonoBehaviour
         Debug.Log("Last Force: " + lastWingForce.magnitude);
 
         //Debug.DrawLine(rigidBody.transform.position ,rigidBody.transform.position + lastWingForce * 100000000, Color.green, 1);
-
         
         rigidBody.AddForce(lastWingForce);
-
         
-
         //theBird.AddForce(transform.forward * EnginePower);
     }
 
-    
-
     void OnPostRender()
     {
-        // Debug.Log("Entering OnPostRender");
-        // if (showForceDebug)
-        // {
-        //     if (!forceDebugMaterial)
-        //     {
-        //         Debug.LogError("Please Assign a material on the inspector");
-        //         return;
-        //     }
-        //     GL.PushMatrix();
-        //     forceDebugMaterial.SetPass(0);
-        //     GL.LoadOrtho();
-        //     GL.Begin(GL.LINES);
-        //     GL.Color(Color.red);
-        //     GL.Vertex(rigidBody.position);
-        //     GL.Vertex(rigidBody.position + lastWingForce * 1000);
-        //     GL.End();
-        //     GL.PopMatrix();
-        // }
-        
-        
-        // float xOffset = 10000000;
-        // float yOffset = 10000000;
-        // float zOffset = 10000000;
-
-        // Vector3[] vertices = {
-        //     new Vector3(rigidBody.position.x, rigidBody.position.y, rigidBody.position.z),
-        //     new Vector3(rigidBody.position.x + xOffset, rigidBody.position.y, rigidBody.position.z),
-        //     new Vector3(rigidBody.position.x + xOffset, rigidBody.position.y + yOffset, rigidBody.position.z),
-        //     new Vector3(rigidBody.position.x, rigidBody.position.y + yOffset, rigidBody.position.z),
-        //     new Vector3 (rigidBody.position.x, rigidBody.position.y + yOffset, rigidBody.position.z + zOffset),
-        //     new Vector3 (rigidBody.position.x + xOffset, rigidBody.position.y + yOffset, rigidBody.position.z + zOffset),
-        //     new Vector3 (rigidBody.position.x + xOffset, rigidBody.position.y, rigidBody.position.z + zOffset),
-        //     new Vector3 (rigidBody.position.x, rigidBody.position.y, rigidBody.position.z + zOffset)
-        // };
-
-
-        // const float s = 10000;
-
-        // Vector3[] vertices = {
-        //     new Vector3 (0, 0, 0),
-        //     new Vector3 (s, 0, 0),
-        //     new Vector3 (s, s, 0),
-        //     new Vector3 (0, s, 0),
-        //     new Vector3 (0, s, s),
-        //     new Vector3 (s, s, s),
-        //     new Vector3 (s, 0, s),
-        //     new Vector3 (0, 0, s),
-        // };
-
-        // //Mesh mesh = Mesh.
-
-        // Mesh mesh = new Mesh();
-        // mesh.vertices = vertices;
-        // mesh.triangles = triangles;
-
-        // Graphics.DrawMesh( mesh, rigidBody.position, Quaternion.identity, forceDebugMaterial, 14, null, 0, null, false, false, false); 
-
     }
-
-    
-
-    // void OnDrawGizmos()
-    // {
-    //     if (rigidBody)
-    //     {
-    //         Gizmos.DrawLine(rigidBody.centerOfMass, lastWingForce * 100000) ;
-    //     }
-    // }
 
     // Start is called before the first frame update
     void Start()
@@ -187,6 +119,8 @@ public class WingPhysics : MonoBehaviour
         //     forceDebugVisual.transform.parent = rigidBody.transform;
         //     //forceDebugVisual.transform.position = new Vector3(2, 1, 0);
         // }
+
+        airplaneController = FindAirplaneController();
     }
 
     // Update is called once per frame
@@ -204,8 +138,33 @@ public class WingPhysics : MonoBehaviour
             debugBaloon.transform.localPosition = debugBaloonInitialPosition[counter] + (lastWingForce * forceDebugBaloonsMultipliers[counter]);
             counter++;
         }
+
+        if (airplaneController)
+        {
+            //this.transform.Rotate()
+            Debug.Log("Updating Rotation: " + airplaneController.GetCurrentRotationX());
+            this.transform.rotation.Set(airplaneController.GetCurrentRotationX(), this.transform.rotation.y, this.transform.rotation.z, this.transform.rotation.w);
+        }
+
+
+        //if (Input.GetKeyDown(KeyCode.A))
+        //FindAirplaneController()
+        
     }
 
+    private AirplaneController FindAirplaneController() {
+        AirplaneController result = null;
+        foreach(var go in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
+        {
+            result = go.GetComponent<AirplaneController>();
+            if (result)
+            {
+                return result;
+            }
+        }
+        Debug.LogError("Expected to find a AirplaneController on one of the Root Objects.");
+        return null;
+    }
     void FixedUpdate()
     {
        calculateForces();
